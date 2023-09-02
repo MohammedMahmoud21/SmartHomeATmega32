@@ -1,0 +1,58 @@
+else if((PUSH_BUTTON_PRESSED == H_PushButton_U8_PushButtonRead(PUSH_BUTTON_1)))
+		{
+			User_Program_Choice = PROFILE_TWO;
+			break;
+		}
+		
+		
+		
+		
+		
+		if(Local_f32Dist <= 10.01f)
+						{
+							/*Someone is near turn off led and buzzer*/
+							if(1 == Local_u8OneTimeFlag)
+							{
+								H_LED_Void_LedOff(LED_RED);
+								H_Buzzer_Void_BuzzerOff();
+								Local_u8OneTimeFlag=0;	
+							}
+							
+							while((Local_f32Dist <= 10.01f))
+							{
+								Local_f32Dist = UltraSonic_Update();	
+							}
+						}
+						else
+						{
+							/*Continue*/
+						}
+						
+						
+						
+						
+						
+						
+						
+						while(PUSH_BUTTON_PRESSED ==  H_PushButton_U8_PushButtonRead(PUSH_BUTTON_1))
+		{
+			/*Means user want to Decrease value (-)*/
+			switch(Local_u8ModifyCounter)
+			{
+				case APP_TEMP:	(Copy_Temp->Value)--;
+				H_Lcd_Void_LCDGoTo(Copy_Temp->Row,Copy_Temp->Colum+LCD_TEMP_OFFSET);
+				H_Lcd_Void_LCDWriteNumber(Copy_Temp->Value);
+				break;
+				case APP_HUMDT: (Copy_Humdt->Value)--;
+				H_Lcd_Void_LCDGoTo(Copy_Humdt->Row,Copy_Humdt->Colum+LCD_HUMDT_OFFSET);
+				H_Lcd_Void_LCDWriteNumber(Copy_Humdt->Value);
+				break;
+				case APP_GAS:	(Copy_Gas->Value)--;
+				H_Lcd_Void_LCDGoTo(Copy_Gas->Row,Copy_Gas->Colum+LCD_GAS_OFFSET);
+				H_Lcd_Void_LCDWriteNumber(Copy_Gas->Value);
+				break;
+				default:
+				/*Nothing*/
+				break;
+			}
+		}

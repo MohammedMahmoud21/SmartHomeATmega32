@@ -1,0 +1,14 @@
+if(0 == End_Flag)
+		{
+			/* Note finished start next*/
+			Value = (4*(1000000/(notes[Count])));
+			ICR1 = Value;
+			OCR1A = Value/2;
+			//Duration_Count = (durations[Count]*(u32)1000)/4; /* 4 Us is tick time */
+			End_Flag=1;
+			Count++;
+		}
+		else
+		{
+			;
+		}

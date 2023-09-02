@@ -1,0 +1,42 @@
+
+				
+				
+					/********* Watch if one of them exceed limits **********/
+					while((Local_u32Temp >= Local_u32ThresholdTemp) || (Local_u32GasPrecentage >= Local_u32ThresholdGas) || (Local_u32Humditiy >= Local_u32ThresholdHumdt))
+					{
+						/*Start Hazard program*/
+						if(0 == Local_u8OneTimeFlag)
+						{
+							MCAL_EXTI_voidDisableInterrupt(EXTI_INT1);	/*Disable Interrupt (EXTI) */
+							H_LED_Void_LedOn(LED_RED);
+							H_Buzzer_Void_BuzzerOn();
+							/*Take Logs*/
+							/***********/
+							Local_u8OneTimeFlag=1;	
+						}
+						/*Enable UltraSonic*/
+						Local_f32Dist = UltraSonic_Update();
+						if(Local_f32Dist <= 10.01)
+						{
+							/*Someone is near*/
+							H_LED_Void_LedOff(LED_RED);
+							H_Buzzer_Void_BuzzerOff();
+							while(Local_f32Dist <= 10.01)
+							{
+								Local_f32Dist = UltraSonic_Update();
+								_delay_ms(900);	
+							}
+							break; /*Break the fault while*/
+						}
+						else
+						{
+							;
+						}
+
+					}
+					/**********************************************************/
+					MCAL_EXTI_voidEnableInterrupt(EXTI_INT1,EXTI_FALLING_EDGE);
+					H_LED_Void_LedOff(LED_RED);
+					H_Buzzer_Void_BuzzerOff();
+				}
+				User_Program_Choice = MAIN;
